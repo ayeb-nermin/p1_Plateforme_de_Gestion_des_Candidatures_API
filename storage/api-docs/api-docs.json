@@ -1,0 +1,498 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BASIC ENDPOINT API docs",
+        "description": "This is BASIC ENDPOINT API documentation",
+        "contact": {
+            "email": "yassine.mechich@medianet.com.tn"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/endpoint_laravel_template/public/api"
+        }
+    ],
+    "paths": {
+        "/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Get user and token",
+                "description": "Username and password are required",
+                "operationId": "LoginApi",
+                "requestBody": {
+                    "description": "Returns the user and the token",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "description": "User (email or fidelys ID)",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "User Password or PIN CODE",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity (validation failed)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseErrorValidation"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "General server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ServerAuthBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/api-user/login": {
+            "post": {
+                "tags": [
+                    "ServerAuthentification"
+                ],
+                "summary": "Get user server token",
+                "description": "Email and password are required",
+                "operationId": "getLoginByEmailAndPasswordServer",
+                "requestBody": {
+                    "description": "Returns the server user and the token",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "User Password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginServer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity (validation failed)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseErrorValidation"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "General server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/version": {
+            "get": {
+                "tags": [
+                    "Version"
+                ],
+                "summary": "Get the current API version",
+                "description": "Returns the current endpoint API's version",
+                "operationId": "getCurrentApiVersion",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Version"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ServerAuthBearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ServerUser": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Version": {
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "properties": {
+                            "version": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiResponseError": {
+                "required": [
+                    "base_url",
+                    "status",
+                    "message",
+                    "status_code"
+                ],
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "default": "false"
+                    },
+                    "status_code": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiResponseErrorValidation": {
+                "required": [
+                    "base_url",
+                    "status",
+                    "message",
+                    "status_code"
+                ],
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "default": "false"
+                    },
+                    "status_code": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "errors": {
+                        "properties": {
+                            "field_one": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "field_two": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiResponseSuccess": {
+                "required": [
+                    "base_url",
+                    "status",
+                    "message"
+                ],
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "default": "true"
+                    },
+                    "status_code": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "OK"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Basic": {
+                "required": [
+                    "base_url",
+                    "status",
+                    "message"
+                ],
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "status_code": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponse": {
+                "required": [
+                    "base_url",
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "properties": {
+                            "access_token": {
+                                "type": "string"
+                            },
+                            "token_expire_datetime": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "login_type": {
+                                "type": "string",
+                                "enum": [
+                                    "email",
+                                    "number"
+                                ]
+                            },
+                            "user_type": {
+                                "type": "string",
+                                "enum": [
+                                    "member",
+                                    "member_tmp"
+                                ]
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginServer": {
+                "required": [
+                    "base_url",
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "base_url": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "properties": {
+                            "access_token": {
+                                "type": "string"
+                            },
+                            "token_expire_datetime": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "user": {
+                                "$ref": "#/components/schemas/ServerUser"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "ServerAuthBearer": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "ServerAuthentification",
+            "description": "server authentification routes"
+        },
+        {
+            "name": "Version",
+            "description": "Version routes"
+        },
+        {
+            "name": "Authentification",
+            "description": "Authentification routes"
+        }
+    ]
+}
