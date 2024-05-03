@@ -21,4 +21,8 @@ class Offer extends Model
     protected $guarded = ['id'];
 
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'candidatures', 'offre_id', 'user_id');
+    }
 }

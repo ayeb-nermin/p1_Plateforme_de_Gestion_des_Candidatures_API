@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Offer\UpdateOfferRequest;
 use App\Http\Requests\V1\Offer\CreateOfferRequest;
 use App\Http\Resources\V1\Offer\OfferResource;
+use App\Http\Swagger\Schemas\Models\User;
 use App\Models\Offer;
+use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Medianet\APIToolKit\Api\ApiResponse;
+use Illuminate\Support\Facades\Auth;
+
 
 class OfferController extends Controller
 {
@@ -50,6 +55,25 @@ class OfferController extends Controller
         $offer->delete();
 
         return $this->responseApiKit(204, [],'Offer deleted Successfully');
+    }
+
+    public function apply(Request $request, Offer $offer): JsonResponse
+    {
+        $auth_id = Auth::user()->id ?? $request->user_id;
+
+        $user = ModelsUser::find($auth_id);
+
+        if($user){
+            //check if the user has completed his cv
+            if(! $user->cv){
+                return $this->responseApiKit(403, [],'You should complete your cv first');
+            }
+
+            // else store application
+            $user->offres()->attach($offer->id);
+        }
+
+        return $this->responseApiKit(200, [],'Successfully applied');
     }
 
 

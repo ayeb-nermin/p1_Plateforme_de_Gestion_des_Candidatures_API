@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
  // Route::middleware(['token.check', 'users.actions'])->group(function () {
     Route::apiResource('/cvs', \App\Http\Controllers\V1\CvController::class);
     Route::apiResource('/offers', \App\Http\Controllers\V1\OfferController::class);
+    Route::post('/apply/{offer}', [\App\Http\Controllers\V1\OfferController::class, 'apply']);
+
 
 
     // });

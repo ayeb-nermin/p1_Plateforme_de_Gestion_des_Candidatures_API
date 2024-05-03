@@ -59,4 +59,15 @@ class User extends Authenticatable
     {
         return $this->where('login', $name)->orWhere('email', $name)->first();
     }
+
+
+    public function cv()
+    {
+        return $this->hasOne(Cv::class);
+    }
+
+    public function offres()
+    {
+        return $this->belongsToMany(Offer::class,'candidatures' ,'user_id','offre_id');
+    }
 }
