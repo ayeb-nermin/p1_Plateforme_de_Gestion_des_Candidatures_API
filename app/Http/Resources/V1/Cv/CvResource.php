@@ -10,7 +10,9 @@ class CvResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            
+            'title' => $this->title,
+            'description' => $this->description,
+
             'created_at' => dateTimeFormat($this->created_at),
             'updated_at' => dateTimeFormat($this->updated_at),
         ];

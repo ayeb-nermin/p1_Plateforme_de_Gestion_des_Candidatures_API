@@ -30,8 +30,9 @@ class CvController extends Controller
 
     public function store(CreateCvRequest $request): JsonResponse
     {
+        //Fix login passport problem , && use auth id instead
         $auth_id = Auth::user() ?? $request->user_id;
-        dd($auth_id);
+
         $cv = Cv::create($request->validated());
 
         return $this->responseApiKit(201, ['cv' => new CvResource($cv)], 'Cv created successfully');
