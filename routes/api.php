@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+// TODO: Fix token generation problem later
  // Route::middleware(['token.check', 'users.actions'])->group(function () {
     Route::apiResource('/cvs', \App\Http\Controllers\V1\CvController::class);
+    Route::apiResource('/offers', \App\Http\Controllers\V1\OfferController::class);
 
 
     // });
+
+
+
